@@ -16,6 +16,7 @@ function App() {
           alignItems: "center",
           flexDirection: "column",
           gap: "1.5rem",
+          padding: "10px",
         }}
       >
         <Col
@@ -26,13 +27,10 @@ function App() {
             flexDirection: "column",
           }}
         >
-          <h1>
-            Weather{" "}
-            <span style={{ fontWeight: "bold", textTransform: "uppercase" }}>
-              app
-            </span>
+          <h1 className="title">
+            Weather <span className="title-effect">app</span>
           </h1>
-          <p style={{ textAlign: "center" }}>
+          <p className="info-text">
             Enter below a place you want to know the weather of and select an
             option from the dropdown
           </p>
@@ -41,18 +39,22 @@ function App() {
         <InputGroup className="mb-3">
           <Form.Control
             style={{
-              padding: "10px",
+              padding: "12px",
               borderTopLeftRadius: "15px",
               borderBottomLeftRadius: "15px",
-              border: 0,
+              border: "2px solid white",
             }}
           />
           <Button
             style={{
-              padding: "10px",
+              padding: "12px",
               borderTopRightRadius: "15px",
               borderBottomRightRadius: "15px",
-              border: 0,
+              border: "2px solid white",
+              textTransform: "uppercase",
+              background: 0,
+              color: "white",
+              fontWeight: "bold",
             }}
             variant="outline-light"
             id="button-addon2"
