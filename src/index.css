@@ -5,11 +5,6 @@
 }
 
 body {
-  height: 100vh;
-  background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-family: "Montserrat", sans-serif;
   color: rgb(57, 56, 56);
 }
