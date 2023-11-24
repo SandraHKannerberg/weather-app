@@ -21,7 +21,23 @@ function Weather() {
           <p>Clouds</p>
         </Col>
       </Row>
-      <Row className="weatherdetails-bottom"></Row>
+
+      <Row className="weatherdetails-bottom">
+        <Col className="feels">
+          <p>Feels like</p>
+          <p>
+            4<sup className="celsius-mini"> O</sup>C
+          </p>
+        </Col>
+        <Col className="humidity">
+          <p>Humidity</p>
+          <p>20%</p>
+        </Col>
+        <Col className="wind">
+          <p>Wind</p>
+          <p>12 MPH</p>
+        </Col>
+      </Row>
     </Container>
   );
 }
