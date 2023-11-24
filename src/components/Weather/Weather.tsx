@@ -13,9 +13,7 @@ function Weather() {
           <p>Stockholm</p>
         </Col>
         <Col className="temp">
-          <h1>
-            3<sup className="celsius"> O</sup>C
-          </h1>
+          <h1>3&deg;C</h1>
         </Col>
         <Col className="description">
           <p>Clouds</p>
@@ -25,9 +23,7 @@ function Weather() {
       <Row className="weatherdetails-bottom">
         <Col className="feels">
           <p>Feels like</p>
-          <p>
-            4<sup className="celsius-mini"> O</sup>C
-          </p>
+          <p>4&deg;C</p>
         </Col>
         <Col className="humidity">
           <p>Humidity</p>
