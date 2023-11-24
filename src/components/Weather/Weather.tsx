@@ -8,7 +8,7 @@ function Weather() {
   const [data, setData] = useState({});
   const [location, setLocation] = useState("");
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${
     import.meta.env.VITE_API_KEY
   }`;
 
@@ -43,30 +43,38 @@ function Weather() {
       <Container className="weather-container">
         <Row className="weatherdetails-top">
           <Col className="location">
-            <p>Stockholm</p>
+            <p className="weatherdetails-p">{data.name}</p>
           </Col>
           <Col className="temp">
-            <h1>3&deg;C</h1>
+            {data.main ? <h1>{data.main.temp.toFixed()}&deg;C</h1> : null}
           </Col>
           <Col className="description">
-            <p>Clouds</p>
+            {data.weather ? (
+              <p className="weatherdetails-p">{data.weather[0].main}</p>
+            ) : null}
           </Col>
         </Row>
 
-        <Row className="weatherdetails-bottom">
-          <Col className="feels">
-            <p className="bold">4&deg;C</p>
-            <p>Feels like</p>
-          </Col>
-          <Col className="humidity">
-            <p className="bold">20%</p>
-            <p>Humidity</p>
-          </Col>
-          <Col className="wind">
-            <p className="bold">12 MPH</p>
-            <p>Wind speed</p>
-          </Col>
-        </Row>
+        {data.name != undefined && (
+          <Row className="weatherdetails-bottom">
+            <Col className="feels">
+              {data.main ? (
+                <p className="bold">{data.main.feels_like.toFixed()}&deg;C</p>
+              ) : null}
+              <p>Feels like</p>
+            </Col>
+            <Col className="humidity">
+              {data.main ? <p className="bold">{data.main.humidity}%</p> : null}
+              <p>Humidity</p>
+            </Col>
+            <Col className="wind">
+              {data.main ? (
+                <p className="bold">{data.wind.speed.toFixed()} MPH</p>
+              ) : null}
+              <p>Wind speed</p>
+            </Col>
+          </Row>
+        )}
       </Container>
     </>
   );
