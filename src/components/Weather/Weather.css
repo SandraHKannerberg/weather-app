@@ -17,3 +17,14 @@ h1 {
   flex-direction: column;
   justify-content: space-between;
 }
+
+.location {
+  margin: 1rem auto;
+}
+
+.description {
+  position: relative;
+  right: -90%;
+  transform-origin: 0 0;
+  transform: rotate(269deg);
+}
