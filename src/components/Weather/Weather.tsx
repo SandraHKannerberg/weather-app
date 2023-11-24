@@ -7,7 +7,7 @@ function Weather() {
   //const url = `https://api.openweathermap.org/data/2.5/weather?q=stockholm&appid=${process.env.REACT_APP_API_KEY}`;
 
   return (
-    <Container>
+    <Container className="weather-container">
       <Row className="weatherdetails-top">
         <Col className="location">
           <p>Stockholm</p>
