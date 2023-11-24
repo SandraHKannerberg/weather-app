@@ -4,15 +4,28 @@ import "./Weather.css";
 import { Container, Col, Row, Button, Form, InputGroup } from "react-bootstrap";
 import { Search } from "react-bootstrap-icons";
 
+//Interface for weather-data
+interface WeatherData {
+  name?: string;
+  weather?: { icon: string; main: string }[];
+  main?: { temp: number; feels_like: number; humidity: number };
+  wind?: { speed: number } | undefined;
+}
+
+//Interface for weather-icon
+interface WeatherIconProps {
+  iconCode: string;
+}
+
 //Component for weather-icon
-const WeatherIcon = ({ iconCode }) => {
+const WeatherIcon: React.FC<WeatherIconProps> = ({ iconCode }) => {
   const iconUrl = `http://openweathermap.org/img/w/${iconCode}.png`;
 
   return <img src={iconUrl} alt="Weather Icon" className="weather-icon" />;
 };
 
 function Weather() {
-  const [data, setData] = useState({});
+  const [data, setData] = useState<WeatherData>({});
   const [location, setLocation] = useState("");
 
   //Url for the current day
@@ -21,7 +34,7 @@ function Weather() {
   }`;
 
   //Function for search a location and then press ENTER
-  const searchLocation = (event: any) => {
+  const searchLocation = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       axios.get(url).then((res) => {
         setData(res.data);
@@ -58,14 +71,16 @@ function Weather() {
               {/* Display location */}
               {data.name}
             </p>
-            {/* Show weather-icon */}
+            {/* Weather description - icon */}
             {data.weather ? (
               <WeatherIcon iconCode={data.weather[0].icon} />
             ) : null}
           </Col>
+          {/* Display temperature */}
           <Col className="temp">
             {data.main ? <h1>{data.main.temp.toFixed()}&deg;C</h1> : null}
           </Col>
+          {/* Weather description - text */}
           <Col className="description">
             {data.weather ? (
               <p className="weatherdetails-p">{data.weather[0].main}</p>
@@ -73,28 +88,39 @@ function Weather() {
           </Col>
         </Row>
 
-        <Row className="weathericon"></Row>
-
+        {/* Weather details if a location is written */}
         {data.name != undefined && (
           <Row className="weatherdetails-bottom">
+            {/* Temp feels like ... */}
             <Col className="feels">
               {data.main ? (
                 <p className="bold">{data.main.feels_like.toFixed()}&deg;C</p>
               ) : null}
               <p>Feels like</p>
             </Col>
+            {/* Humidity */}
             <Col className="humidity">
               {data.main ? <p className="bold">{data.main.humidity}%</p> : null}
               <p>Humidity</p>
             </Col>
+            {/* Wind speed */}
             <Col className="wind">
               {data.main ? (
-                <p className="bold">{data.wind.speed.toFixed()} MPH</p>
+                <p className="bold">
+                  {data.wind && data.wind.speed.toFixed()} MPH
+                </p>
               ) : null}
               <p>Wind speed</p>
             </Col>
           </Row>
         )}
+
+        {/* Upcoming weather */}
+        <Row className="next-days-weather">
+          <Col>Day 1</Col>
+          <Col>Day 2</Col>
+          <Col>Day 3</Col>
+        </Row>
       </Container>
     </>
   );
