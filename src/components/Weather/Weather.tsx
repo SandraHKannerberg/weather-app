@@ -39,60 +39,19 @@ function Weather() {
     import.meta.env.VITE_API_KEY
   }`;
 
-  //Url for 5 days
+  //Url for 5 days forecast
   const urlForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=metric&appid=${
     import.meta.env.VITE_API_KEY
   }`;
 
-  // const searchLocation = (event: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (event.key === "Enter") {
-  //     // Fetch Current day
-  //     axios.get(urlCurrentDay).then((res) => {
-  //       setData(res.data);
-  //       console.log(res.data);
-  //     });
-
-  //     // Fetch 3 days forecast
-  //     axios.get(urlForecast).then((res) => {
-  //       // Filter 3 days forecast
-  //       const nextThreeDaysForecast = res.data.list.slice(0, 8 * 3);
-
-  //       // Average temperatures
-  //       const averageTemperatures = [];
-  //       for (let i = 0; i < nextThreeDaysForecast.length; i += 8) {
-  //         const dailyForecast = nextThreeDaysForecast.slice(i, i + 8);
-  //         const totalTemperature = dailyForecast.reduce(
-  //           (sum: number, item: any) => sum + item.main.temp,
-  //           0
-  //         );
-  //         const averageTemperature = totalTemperature / 8;
-  //         const date = new Date(dailyForecast[0].dt * 1000);
-  //         const dayOfWeek = date.toLocaleDateString("en-US", {
-  //           weekday: "short",
-  //         });
-
-  //         averageTemperatures.push({
-  //           dayOfWeek,
-  //           temperature: averageTemperature.toFixed(1),
-  //           icon: dailyForecast[0].weather[0].icon,
-  //         });
-  //       }
-
-  //       // Update forecast state
-  //       setForecast(averageTemperatures);
-  //     });
-
-  //     //Clear input after Enter
-  //     setLocation("");
-  //   }
-  // };
-
   const searchLocation = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
+      // Current day
       axios.get(urlCurrentDay).then((res) => {
         setData(res.data);
       });
 
+      // 5 days forecast
       axios.get(urlForecast).then((res) => {
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1); // Show forecast from tomorrow
@@ -134,7 +93,7 @@ function Weather() {
         setForecast(averageTemperatures);
       });
 
-      //Reset input after Enter
+      //Clear input after Enter
       setLocation("");
     }
   };
