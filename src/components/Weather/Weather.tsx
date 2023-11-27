@@ -1,8 +1,7 @@
 import axios from "axios";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import "./Weather.css";
-import { Container, Col, Row, Button, Form, InputGroup } from "react-bootstrap";
-import { Search } from "react-bootstrap-icons";
+import { Container, Col, Row, Form, InputGroup } from "react-bootstrap";
 
 //Interface for weather-data
 interface WeatherData {
@@ -26,19 +25,29 @@ const WeatherIcon: React.FC<WeatherIconProps> = ({ iconCode }) => {
 
 function Weather() {
   const [data, setData] = useState<WeatherData>({});
+  const [forecast, setForecast] = useState({});
   const [location, setLocation] = useState("");
 
   //Url for the current day
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${
+  const urlCurrentDay = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${
+    import.meta.env.VITE_API_KEY
+  }`;
+
+  //Url for 5 days
+  const urlForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=metric&appid=${
     import.meta.env.VITE_API_KEY
   }`;
 
   //Function for search a location and then press ENTER
   const searchLocation = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      axios.get(url).then((res) => {
+      axios.get(urlCurrentDay).then((res) => {
         setData(res.data);
         console.log(res.data);
+      });
+      axios.get(urlForecast).then((res) => {
+        setForecast(res.data);
+        console.log(res.data, " next-days");
       });
 
       //Clear input after Enter
@@ -58,35 +67,35 @@ function Weather() {
             onKeyDown={searchLocation}
             placeholder="Enter a location..."
           />
-          {/* <Button className="search-btn">
-            <Search></Search>
-          </Button> */}
         </InputGroup>
       </Container>
 
       <Container className="weather-container">
-        <Row className="weatherdetails-top">
-          <Col className="location">
-            <p className="weatherdetails-p">
-              {/* Display location */}
-              {data.name}
-            </p>
-            {/* Weather description - icon */}
-            {data.weather ? (
-              <WeatherIcon iconCode={data.weather[0].icon} />
-            ) : null}
-          </Col>
-          {/* Display temperature */}
-          <Col className="temp">
-            {data.main ? <h1>{data.main.temp.toFixed()}&deg;C</h1> : null}
-          </Col>
-          {/* Weather description - text */}
-          <Col className="description">
-            {data.weather ? (
+        {data.name != undefined && (
+          <Row className="weatherdetails-top">
+            <Col className="location">
+              <p className="weatherdetails-p">
+                {/* Display location */}
+                {data.name}
+              </p>
+              {/* Weather description - icon */}
+              {data.weather ? (
+                <WeatherIcon iconCode={data.weather[0].icon} />
+              ) : null}
+            </Col>
+            {/* Display temperature */}
+            <Col className="temp">
+              {data.main ? <h1>{data.main.temp.toFixed()}&deg;C</h1> : null}
+            </Col>
+            {/* Weather description - text */}
+            <Col className="description">
+              {/* {data.weather ? (
               <p className="weatherdetails-p">{data.weather[0].main}</p>
-            ) : null}
-          </Col>
-        </Row>
+            ) : null} */}
+              <p className="weatherdetails-p">Today</p>
+            </Col>
+          </Row>
+        )}
 
         {/* Weather details if a location is written */}
         {data.name != undefined && (
@@ -115,12 +124,17 @@ function Weather() {
           </Row>
         )}
 
-        {/* Upcoming weather */}
-        <Row className="next-days-weather">
-          <Col>Day 1</Col>
-          <Col>Day 2</Col>
-          <Col>Day 3</Col>
-        </Row>
+        {/* Weather Forecast*/}
+        <Container>
+          <Row>
+            <p>Weather Forecast</p>
+          </Row>
+          <Row className="forecast">
+            <Col>Day 1</Col>
+            <Col>Day 2</Col>
+            <Col>Day 3</Col>
+          </Row>
+        </Container>
       </Container>
     </>
   );
