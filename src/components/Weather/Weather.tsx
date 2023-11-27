@@ -16,6 +16,12 @@ interface WeatherIconProps {
   iconCode: string;
 }
 
+interface ForecastData {
+  dayOfWeek: string;
+  temperature: string;
+  icon: any;
+}
+
 //Component for weather-icon
 const WeatherIcon: React.FC<WeatherIconProps> = ({ iconCode }) => {
   const iconUrl = `http://openweathermap.org/img/w/${iconCode}.png`;
@@ -25,7 +31,7 @@ const WeatherIcon: React.FC<WeatherIconProps> = ({ iconCode }) => {
 
 function Weather() {
   const [data, setData] = useState<WeatherData>({});
-  const [forecast, setForecast] = useState({});
+  const [forecast, setForecast] = useState<ForecastData[]>([]);
   const [location, setLocation] = useState("");
 
   //Url for the current day
@@ -38,22 +44,96 @@ function Weather() {
     import.meta.env.VITE_API_KEY
   }`;
 
-  //Function for search a location and then press ENTER
   const searchLocation = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       axios.get(urlCurrentDay).then((res) => {
         setData(res.data);
         console.log(res.data);
       });
+
       axios.get(urlForecast).then((res) => {
-        setForecast(res.data);
-        console.log(res.data, " next-days");
+        // Filtrera ut de tre kommande dagarna från 5-dagars prognosen
+        const nextThreeDaysForecast = res.data.list.slice(0, 8 * 3);
+
+        // Beräkna snitttemperaturen för varje dag
+        const averageTemperatures = [];
+        for (let i = 0; i < nextThreeDaysForecast.length; i += 8) {
+          const dailyForecast = nextThreeDaysForecast.slice(i, i + 8);
+          const totalTemperature = dailyForecast.reduce(
+            (sum, item) => sum + item.main.temp,
+            0
+          );
+          const averageTemperature = totalTemperature / 8;
+          const date = new Date(dailyForecast[0].dt * 1000);
+          const dayOfWeek = date.toLocaleDateString("sv-SE", {
+            weekday: "long",
+          });
+
+          averageTemperatures.push({
+            dayOfWeek,
+            temperature: averageTemperature.toFixed(1),
+            icon: dailyForecast[0].weather[0].icon,
+          });
+        }
+
+        // Uppdatera state med väderdata för 3-dagars prognos
+        setForecast(averageTemperatures);
+        console.log("Prognos ", averageTemperatures);
+        console.log(res.data, " forecast");
       });
 
       //Clear input after Enter
       setLocation("");
     }
   };
+
+  //Function for search a location and then press ENTER
+  // const searchLocation = async (
+  //   event: React.KeyboardEvent<HTMLInputElement>
+  // ) => {
+  //   if (event.key === "Enter") {
+  //     try {
+  //       //Current day weather
+  //       const currentDayResponse = await axios.get(urlCurrentDay);
+  //       setData(currentDayResponse.data);
+
+  //       // Forecast weather
+  //       const forecastResponse = await axios.get(urlForecast);
+
+  //       // Filter 3 days forecast
+  //       const nextThreeDaysForecast = forecastResponse.data.list.slice(
+  //         0,
+  //         8 * 3
+  //       );
+
+  //       // Average temperature
+  //       const averageTemperatures = nextThreeDaysForecast.map(
+  //         (dailyForecast: any) => {
+  //           const totalTemperature = dailyForecast.main.temp;
+  //           const averageTemperature = totalTemperature;
+  //           const date = new Date(dailyForecast.dt * 1000);
+  //           const dayOfWeek = date.toLocaleDateString("sv-SE", {
+  //             weekday: "long",
+  //           });
+
+  //           return {
+  //             dayOfWeek,
+  //             temperature: averageTemperature.toFixed(1),
+  //             icon: dailyForecast[0].weather[0].icon,
+  //           };
+  //         }
+  //       );
+
+  //       setForecast(averageTemperatures);
+  //       console.log(forecast);
+  //     } catch (error) {
+  //       console.error("Error fetching weather data:", error);
+  //     }
+
+  //     //Clear input after Enter
+  //     setLocation("");
+  //   }
+  // };
 
   return (
     <>
@@ -69,7 +149,6 @@ function Weather() {
           />
         </InputGroup>
       </Container>
-
       <Container className="weather-container">
         {data.name != undefined && (
           <Row className="weatherdetails-top">
@@ -123,19 +202,27 @@ function Weather() {
             </Col>
           </Row>
         )}
+      </Container>
 
-        {/* Weather Forecast*/}
+      {/* Weather Forecast */}
+      {forecast.length > 0 && (
         <Container>
           <Row>
             <p>Weather Forecast</p>
           </Row>
           <Row className="forecast">
-            <Col>Day 1</Col>
-            <Col>Day 2</Col>
-            <Col>Day 3</Col>
+            {forecast.map((dailyForecast, index) => (
+              <Col key={index}>
+                <img
+                  src={`http://openweathermap.org/img/w/${dailyForecast.icon}.png`}
+                  alt="Weather Icon"
+                />
+                {dailyForecast.temperature}°C - {dailyForecast.dayOfWeek}
+              </Col>
+            ))}
           </Row>
         </Container>
-      </Container>
+      )}
     </>
   );
 }
