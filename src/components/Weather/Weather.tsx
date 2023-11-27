@@ -62,7 +62,7 @@ function Weather() {
         for (let i = 0; i < nextThreeDaysForecast.length; i += 8) {
           const dailyForecast = nextThreeDaysForecast.slice(i, i + 8);
           const totalTemperature = dailyForecast.reduce(
-            (sum, item) => sum + item.main.temp,
+            (sum: number, item: any) => sum + item.main.temp,
             0
           );
           const averageTemperature = totalTemperature / 8;
