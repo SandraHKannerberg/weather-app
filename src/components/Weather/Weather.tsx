@@ -46,16 +46,18 @@ function Weather() {
 
   const searchLocation = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
+      // Fetch Current day
       axios.get(urlCurrentDay).then((res) => {
         setData(res.data);
         console.log(res.data);
       });
 
+      // Fetch 3 days forecast
       axios.get(urlForecast).then((res) => {
-        // Filtrera ut de tre kommande dagarna från 5-dagars prognosen
+        // Filter 3 days forecast
         const nextThreeDaysForecast = res.data.list.slice(0, 8 * 3);
 
-        // Beräkna snitttemperaturen för varje dag
+        // Average temperatures
         const averageTemperatures = [];
         for (let i = 0; i < nextThreeDaysForecast.length; i += 8) {
           const dailyForecast = nextThreeDaysForecast.slice(i, i + 8);
@@ -65,8 +67,8 @@ function Weather() {
           );
           const averageTemperature = totalTemperature / 8;
           const date = new Date(dailyForecast[0].dt * 1000);
-          const dayOfWeek = date.toLocaleDateString("sv-SE", {
-            weekday: "long",
+          const dayOfWeek = date.toLocaleDateString("en-US", {
+            weekday: "short",
           });
 
           averageTemperatures.push({
@@ -76,64 +78,14 @@ function Weather() {
           });
         }
 
-        // Uppdatera state med väderdata för 3-dagars prognos
+        // Update forecast state
         setForecast(averageTemperatures);
-        console.log("Prognos ", averageTemperatures);
-        console.log(res.data, " forecast");
       });
 
       //Clear input after Enter
       setLocation("");
     }
   };
-
-  //Function for search a location and then press ENTER
-  // const searchLocation = async (
-  //   event: React.KeyboardEvent<HTMLInputElement>
-  // ) => {
-  //   if (event.key === "Enter") {
-  //     try {
-  //       //Current day weather
-  //       const currentDayResponse = await axios.get(urlCurrentDay);
-  //       setData(currentDayResponse.data);
-
-  //       // Forecast weather
-  //       const forecastResponse = await axios.get(urlForecast);
-
-  //       // Filter 3 days forecast
-  //       const nextThreeDaysForecast = forecastResponse.data.list.slice(
-  //         0,
-  //         8 * 3
-  //       );
-
-  //       // Average temperature
-  //       const averageTemperatures = nextThreeDaysForecast.map(
-  //         (dailyForecast: any) => {
-  //           const totalTemperature = dailyForecast.main.temp;
-  //           const averageTemperature = totalTemperature;
-  //           const date = new Date(dailyForecast.dt * 1000);
-  //           const dayOfWeek = date.toLocaleDateString("sv-SE", {
-  //             weekday: "long",
-  //           });
-
-  //           return {
-  //             dayOfWeek,
-  //             temperature: averageTemperature.toFixed(1),
-  //             icon: dailyForecast[0].weather[0].icon,
-  //           };
-  //         }
-  //       );
-
-  //       setForecast(averageTemperatures);
-  //       console.log(forecast);
-  //     } catch (error) {
-  //       console.error("Error fetching weather data:", error);
-  //     }
-
-  //     //Clear input after Enter
-  //     setLocation("");
-  //   }
-  // };
 
   return (
     <>
@@ -166,11 +118,8 @@ function Weather() {
             <Col className="temp">
               {data.main ? <h1>{data.main.temp.toFixed()}&deg;C</h1> : null}
             </Col>
-            {/* Weather description - text */}
-            <Col className="description">
-              {/* {data.weather ? (
-              <p className="weatherdetails-p">{data.weather[0].main}</p>
-            ) : null} */}
+            {/* Text - Today */}
+            <Col className="today">
               <p className="weatherdetails-p">Today</p>
             </Col>
           </Row>
@@ -202,27 +151,28 @@ function Weather() {
             </Col>
           </Row>
         )}
-      </Container>
 
-      {/* Weather Forecast */}
-      {forecast.length > 0 && (
-        <Container>
-          <Row>
-            <p>Weather Forecast</p>
-          </Row>
-          <Row className="forecast">
-            {forecast.map((dailyForecast, index) => (
-              <Col key={index}>
-                <img
-                  src={`http://openweathermap.org/img/w/${dailyForecast.icon}.png`}
-                  alt="Weather Icon"
-                />
-                {dailyForecast.temperature}°C - {dailyForecast.dayOfWeek}
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      )}
+        {/* Weather Forecast */}
+        {forecast.length > 0 && (
+          <Container className="forecast-container">
+            <Row>
+              <p>Weather Forecast</p>
+            </Row>
+            <Row className="forecast">
+              {forecast.map((dailyForecast, index) => (
+                <Col className="center-content" key={index}>
+                  <img
+                    src={`http://openweathermap.org/img/w/${dailyForecast.icon}.png`}
+                    alt="Weather Icon"
+                  />
+                  <p>{dailyForecast.temperature}&deg;C</p>
+                  <p className="bold">{dailyForecast.dayOfWeek}</p>
+                </Col>
+              ))}
+            </Row>
+          </Container>
+        )}
+      </Container>
     </>
   );
 }

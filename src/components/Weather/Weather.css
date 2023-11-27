@@ -1,58 +1,3 @@
-.weatherdetails-p {
-  font-size: 1.6rem;
-}
-
-h1 {
-  font-size: 6rem;
-}
-
-.weather-container {
-  max-width: 700px;
-  max-height: 500px;
-  margin: auto;
-  margin-top: 2rem;
-  padding: 0 1rem;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.location {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0;
-}
-
-.description {
-  position: relative;
-  right: -95%;
-  transform-origin: 0 0;
-  transform: rotate(269deg);
-}
-
-.weatherdetails-bottom {
-  display: flex;
-  justify-content: space-evenly;
-  text-align: center;
-  padding: 1rem;
-  border-radius: 12px;
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.forecast {
-  display: flex;
-  justify-content: space-evenly;
-  text-align: center;
-  padding: 1rem;
-  border-radius: 12px;
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.bold {
-  font-weight: 700;
-}
-
 .search-container {
   text-align: center;
   padding-top: 3rem;
@@ -78,15 +23,71 @@ h1 {
   color: #fff;
 }
 
-.search-btn {
-  padding: 0.7rem 0;
-  font-size: 1.8rem;
-  color: #fff;
-  border: 0;
-  background: 0;
-  cursor: pointer;
+.weather-container {
+  max-width: 700px;
+  max-height: 500px;
+  margin: auto;
+  margin-top: 2rem;
+  padding: 0 1rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+h1 {
+  font-size: 6rem;
+}
+
+.weatherdetails-p {
+  font-size: 1.6rem;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.today {
+  position: relative;
+  right: -95%;
+  transform-origin: 0 0;
+  transform: rotate(269deg);
+}
+
+.weatherdetails-bottom {
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.forecast {
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.forecast-container {
+  margin-top: 1rem;
 }
 
 .weather-icon {
   width: 75px;
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
