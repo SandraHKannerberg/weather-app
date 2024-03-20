@@ -1,30 +1,24 @@
-# React + TypeScript + Vite
+Weather app
+Repo: 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Technology:
+React, TypeScript, Bootstrap, Open Weather API
 
-Currently, two official plugins are available:
+Installation
+To run the project follow the instructions below.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Clone the repo from GitHub:
 
-## Expanding the ESLint configuration
+Open Terminal and navigate to the folder where you want to save the repo. Then run the command:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+git clone 
 
-- Configure the top-level `parserOptions` property like this:
+To be able to run the project, you need access to secretkeys
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+Open Terminal and navigate to the repo/project folder, then run command:
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+npm install
+When the installation are done, run the project
+
+npm run dev
+The project are now up and running on localhost and you can open the application in your browser
