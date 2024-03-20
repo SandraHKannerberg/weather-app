@@ -1,5 +1,5 @@
 Weather app
-Repo: 
+Repo: https://github.com/SandraHKannerberg/weather-app.git
 
 Technology:
 React, TypeScript, Bootstrap, Open Weather API
@@ -7,7 +7,7 @@ React, TypeScript, Bootstrap, Open Weather API
 Installation
 To run the project follow the instructions below.
 
-Clone the repo from GitHub:
+Clone the repo from GitHub: https://github.com/SandraHKannerberg/weather-app.git
 
 Open Terminal and navigate to the folder where you want to save the repo. Then run the command:
 
