@@ -1,5 +1,6 @@
 # Weather app
 Repo: https://github.com/SandraHKannerberg/weather-app.git
+Live demo: https://sandra-weather-app.onrender.com/
 
 **Technology:** </br>
 React, TypeScript, Bootstrap, Open Weather API </br>
